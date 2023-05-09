@@ -26,10 +26,7 @@ jobs:
         run: .venv/bin/pip install -U pip cffi
       - name: Make sdist
         run: .venv/bin/python setup.py sdist
-      - uses: actions/upload-artifact@v3.1.1
-        with:
-          name: "tongsuopy-sdist"
-          path: dist/tongsuopy*
+
 
   manylinux:
     needs: [sdist]
@@ -265,4 +262,8 @@ jobs:
             python -c "from tongsuopy.backends.tongsuo.backend import backend;print('Loaded: ' + backend.openssl_version_text());print('Linked Against: ' + backend._ffi.string(backend._lib.OPENSSL_VERSION_TEXT).decode('ascii'))"
       - run: mkdir tongsuopy-wheelhouse
       - run: move wheelhouse\tongsuopy*.whl tongsuopy-wheelhouse\
+      - uses: actions/upload-artifact@v3.1.1
+        with:
+          name: "tongsuopy-windows"
+          path: tongsuopy-wheelhouse/tongsuopy*.whl
 
